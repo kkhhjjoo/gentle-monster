@@ -9,12 +9,12 @@ const ProductCard = ({ item }) => {
   return (
     <div className={styles.card} onClick={showDetail}>
       <div className={styles.imageWrapper}>
+        {item?.new === true && <span className={styles.newLabel}>NEW</span>}
         <img src={item?.img} alt={item?.title} />
       </div>
       <div className={styles.info}>
         <div className={styles.name}>{item?.title}</div>
         <div className={styles.price}>₩{item?.price}</div>
-        <div>{item?.new === true? '신제품' : ''}</div>
       </div>
     </div>
   )
