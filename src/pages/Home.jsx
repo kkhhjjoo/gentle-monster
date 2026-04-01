@@ -13,7 +13,7 @@ const Home = () => {
   useEffect(() => {
     const getProducts = async () => {
       let url = searchQuery
-        ? `https://my-json-server.typicode.com/kkhhjjoo/gentle-monster/products?title_contains=${searchQuery}`
+        ? `https://my-json-server.typicode.com/kkhhjjoo/gentle-monster/products?title_like=${searchQuery}`
         : `https://my-json-server.typicode.com/kkhhjjoo/gentle-monster/products`;
       let response = await fetch(url);
       let data = await response.json();
