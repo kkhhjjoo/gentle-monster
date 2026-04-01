@@ -1,6 +1,7 @@
 .section {
   position: relative;
   height: 50dvh;
+  color: #fff;
 }
 
 @media (min-width: 768px) {
