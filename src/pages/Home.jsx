@@ -1,25 +1,30 @@
 import { useEffect, useState } from 'react'
 import HeroSection from '../components/HeroSection/HeroSection'
 import ProductCard from '../components/ProductCard/ProductCard';
+import { useSearchParams } from 'react-router';
 import styles from './Home.module.css';
 
 const Home = () => {
 
   const [productList, setProductsList] = useState([]);
-  const getProducts = async () => {
-    let url = `http://localhost:5000/products`;
-    let response = await fetch(url);
-    let data = await response.json();
-    console.log(data);
-    setProductsList(data);
-  }
+  const [query] = useSearchParams();
+  const searchQuery = query.get('q');
 
   useEffect(() => {
-    getProducts()
-   }, []);
+    const getProducts = async () => {
+      let url = searchQuery
+        ? `https://my-json-server.typicode.com/kkhhjjoo/gentle-monster/products?title_contains=${searchQuery}`
+        : `https://my-json-server.typicode.com/kkhhjjoo/gentle-monster/products`;
+      let response = await fetch(url);
+      let data = await response.json();
+      setProductsList(data);
+    }
+    getProducts();
+  }, [searchQuery]);
+
   return (
     <div>
-      <HeroSection />
+      {!searchQuery && <HeroSection />}
       <section>
         <ul className={styles.productList}>
           {productList.map((product) => (

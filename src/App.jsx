@@ -1,5 +1,5 @@
 import { RouterProvider } from 'react-router';
-import router from './router';
+import router from './route/router';
 import './App.css'
 
 //1. 전체 상품 페이지, 로그인, 상품 상세페이지

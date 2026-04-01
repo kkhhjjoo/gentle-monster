@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import styles from "./Header.module.css";
 
 const popularItems = [
@@ -26,9 +26,18 @@ const SearchIcon = () => (
 );
 
 const Header = () => {
+  const search = (event) => {
+    if (event.key === 'Enter') {
+      let keyword = event.target.value;
+      navigate(`/?q=${keyword}`);
+      setSearchOpen(false);
+    }
+  }
   const [searchOpen, setSearchOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [recentItems, setRecentItems] = useState([]);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
 
   const openSearch = () => {
     const stored = localStorage.getItem("recentItems");
@@ -39,6 +48,14 @@ const Header = () => {
   const clearRecent = () => {
     localStorage.removeItem("recentItems");
     setRecentItems([]);
+  };
+
+  const navigate = useNavigate();
+
+  const logout = () => {
+    localStorage.removeItem('isLoggedIn');
+    setUserMenuOpen(false);
+    navigate('/');
   };
 
   return (
@@ -77,12 +94,32 @@ const Header = () => {
           <button className={`${styles.iconBtn} ${styles.desktopOnly}`} aria-label="검색" onClick={openSearch}>
             <SearchIcon />
           </button>
-          <button className={styles.iconBtn} aria-label="로그인">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-              <circle cx="12" cy="8" r="4" />
-              <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
-            </svg>
-          </button>
+          {/* 유저 메뉴 */}
+          <div className={styles.userMenu}>
+            <button className={styles.iconBtn} aria-label="유저메뉴" onClick={() => setUserMenuOpen(prev => !prev)}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                <circle cx="12" cy="8" r="4" />
+                <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+              </svg>
+            </button>
+            {userMenuOpen && (
+              <div className={styles.userDropdown}>
+                {isLoggedIn ? (
+                  <>
+                    <button className={styles.dropdownBtn} onClick={() => { navigate('/user'); setUserMenuOpen(false); }}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                        <circle cx="12" cy="8" r="4" />
+                        <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+                      </svg>
+                    </button>
+                    <button className={styles.dropdownBtn} onClick={logout}>로그아웃</button>
+                  </>
+                ) : (
+                  <button className={styles.dropdownBtn} onClick={() => { navigate('/login'); setUserMenuOpen(false); }}>로그인</button>
+                )}
+              </div>
+            )}
+          </div>
           <button className={styles.iconBtn} aria-label="장바구니">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
               <rect x="3" y="7" width="18" height="14" rx="1" />
@@ -131,6 +168,7 @@ const Header = () => {
             className={styles.searchInput}
             placeholder="검색어를 입력하세요"
             autoFocus={searchOpen}
+            onKeyDown={search}
           />
         </div>
 
@@ -175,6 +213,7 @@ const Header = () => {
       </div>
 
       {searchOpen && <div className={styles.backdrop} onClick={() => setSearchOpen(false)} />}
+      {userMenuOpen && <div className={styles.backdrop} onClick={() => setUserMenuOpen(false)} />}
     </>
   );
 };

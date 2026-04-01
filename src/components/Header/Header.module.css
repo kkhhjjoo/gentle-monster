@@ -190,6 +190,45 @@ ul,li {
   color: #111;
 }
 
+.userMenu {
+  position: relative;
+}
+
+.userDropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 101;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.dropdownBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  color: #111;
+  letter-spacing: 0.03em;
+  border-left: 1px solid #e5e5e5;
+}
+
+.dropdownBtn:first-child {
+  border-left: none;
+}
+
+.dropdownBtn:hover {
+  background: #f5f5f5;
+}
+
 .emptyText {
   font-size: 12px;
   color: #aaa;
