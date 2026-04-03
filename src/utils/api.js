@@ -1,18 +1,13 @@
 import axios from "axios";
-// 상황따라 주소 다름
-const LOCAL_BACKEND = import.meta.env.VITE_LOCAL_BACKEND;
-// const BACKEND_PROXY = process.env.REACT_APP_BACKEND_PROXY;
-// console.log("proxy", BACKEND_PROXY);
+
 const api = axios.create({
-  baseURL: import.meta.env.PROD ? "" : LOCAL_BACKEND,
+  baseURL: import.meta.env.VITE_API_URL,
   headers: {
     "Content-Type": "application/json",
     authorization: `Bearer ${localStorage.getItem("token")}`,
   },
 });
-/**
- * console.log all requests and responses
- */
+
 api.interceptors.request.use(
   (request) => {
     console.log("Starting Request", request);
