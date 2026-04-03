@@ -361,4 +361,8 @@ ul,li {
   .backdrop {
     top: 0;
   }
+
+  .logo img {
+    width: 200px;
+  }
 }

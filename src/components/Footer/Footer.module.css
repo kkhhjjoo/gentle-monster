@@ -5,6 +5,12 @@
   color: #333;
 }
 
+@media (max-width: 768px) {
+  .footer {
+    display: none;
+  }
+}
+
 .topRow {
   display: flex;
   justify-content: space-between;
