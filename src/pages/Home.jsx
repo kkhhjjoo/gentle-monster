@@ -1,26 +1,20 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getProductList } from '../features/product/productSlice'
 import HeroSection from '../components/HeroSection/HeroSection'
 import ProductCard from '../components/ProductCard/ProductCard';
 import { useSearchParams } from 'react-router';
 import styles from './Home.module.css';
 
 const Home = () => {
-
-  const [productList, setProductsList] = useState([]);
+  const dispatch = useDispatch();
+  const { productList } = useSelector((state) => state.product);
   const [query] = useSearchParams();
   const searchQuery = query.get('q');
 
   useEffect(() => {
-    const getProducts = async () => {
-      let url = searchQuery
-        ? `https://my-json-server.typicode.com/kkhhjjoo/gentle-monster/products?title_like=${searchQuery}`
-        : `https://my-json-server.typicode.com/kkhhjjoo/gentle-monster/products`;
-      let response = await fetch(url);
-      let data = await response.json();
-      setProductsList(data);
-    }
-    getProducts();
-  }, [searchQuery]);
+    dispatch(getProductList(searchQuery ? { name: searchQuery } : {}));
+  }, [searchQuery, dispatch]);
 
   return (
     <div>
@@ -28,7 +22,7 @@ const Home = () => {
       <section>
         <ul className={styles.productList}>
           {productList.map((product) => (
-            <li key={product.id}><ProductCard item={product} />
+            <li key={product._id}><ProductCard item={product} />
             </li>
           ))}
         </ul>

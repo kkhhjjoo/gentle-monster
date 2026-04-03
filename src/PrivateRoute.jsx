@@ -2,7 +2,7 @@ import { Navigate } from 'react-router';
 import UserPage from './pages/UserPage/UserPage';
 
 const PrivateRoute = () => {
-  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  const isLoggedIn = !!localStorage.getItem('token');
   return isLoggedIn ? <UserPage /> : <Navigate to="/login" />;
 }
 

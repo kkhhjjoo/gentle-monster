@@ -1,22 +1,24 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styles from './Login.module.css'
 import { useNavigate } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginWithEmail } from '../../features/user/userSlice';
 
 const Login = () => {
 
   const navigate = useNavigate();
-  
-  const [authenticate, setAuthenticate] = useState(false);
+  const dispatch = useDispatch();
+  const { loginError, loading } = useSelector((state) => state.user);
 
-  useEffect(() => {
-    console.log('authenticate', authenticate)
-  }, [authenticate]);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const loginUser = (e) => {
+  const loginUser = async (e) => {
     e.preventDefault();
-    localStorage.setItem('isLoggedIn', 'true');
-    setAuthenticate(true);
-    navigate('/');
+    const result = await dispatch(loginWithEmail({ email, password }));
+    if (result.meta.requestStatus === 'fulfilled') {
+      navigate('/');
+    }
   }
 
   return (
@@ -31,6 +33,8 @@ const Login = () => {
           type="text"
           id="email"
           placeholder="이메일"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
 
         <label className={styles.srOnly} htmlFor="password">
@@ -41,8 +45,12 @@ const Login = () => {
           type="password"
           id="password"
           placeholder="비밀번호"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit" className={styles.button}>로그인</button>
+        {loginError && <p className={styles.error}>{loginError}</p>}
+        <button type="submit" className={styles.button} disabled={loading}>로그인</button>
+        <button type="button" className={styles.registerBtn} onClick={() => navigate('/register')}>회원가입</button>
       </form>
     </div>
   )

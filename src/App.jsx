@@ -1,5 +1,7 @@
 import { RouterProvider } from 'react-router';
 import router from './route/router';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './App.css'
 
 //1. 전체 상품 페이지, 로그인, 상품 상세페이지
@@ -13,7 +15,12 @@ import './App.css'
 //9. 상품을 검색할 수 있다.
 function App() {
 
-  return <RouterProvider router={router} />
+  return (
+    <>
+      <RouterProvider router={router} />
+      <ToastContainer />
+    </>
+  )
 }
 
 export default App

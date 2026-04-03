@@ -20,6 +20,15 @@
   max-width: 700px;
 }
 
+.emailRow {
+  display: flex;
+  gap: 8px;
+}
+
+.emailRow .input {
+  flex: 1;
+}
+
 .input {
   width: 100%;
   height: 64px;
@@ -40,7 +49,27 @@
   border-color: #aaa;
 }
 
-.button, .registerBtn {
+.inputError {
+  border-color: #e53e3e;
+}
+
+.checkButton {
+  height: 64px;
+  padding: 0 20px;
+  background-color: #fff;
+  color: #1e2227;
+  border: 1px solid #1e2227;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.checkButton:hover {
+  background-color: #f5f5f5;
+}
+
+.button {
   width: 100%;
   height: 64px;
   background-color: #1e2227;
@@ -52,23 +81,23 @@
   margin-top: 4px;
 }
 
-.registerBtn {
-  background: #fff;
-  color: #1e2227;
-  border: 1px solid #1e2227;
-}
 .button:hover {
   background-color: #2d3339;
 }
 
-.srOnly {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
+.button:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
+
+.error {
+  color: #e53e3e;
+  font-size: 0.85rem;
+  margin: -4px 0 0;
+}
+
+.success {
+  color: #38a169;
+  font-size: 0.85rem;
+  margin: -4px 0 0;
 }

@@ -1,30 +1,25 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useParams } from 'react-router'
+import { useDispatch, useSelector } from 'react-redux'
+import { getProductDetail } from '../../features/product/productSlice'
 import styles from './ProductDetail.module.css'
 
 const ProductDetail = () => {
-
-  const [product, setProduct] = useState(null);
-
+  const dispatch = useDispatch();
   const { id } = useParams();
-  const getProductDetail = async () => { 
-    let url = `https://my-json-server.typicode.com/kkhhjjoo/gentle-monster/products/${id}`;
-    const response = await fetch(url);
-    let data = await response.json();
-    console.log(data);
-    setProduct(data);
+  const { selectedProduct: product, loading } = useSelector((state) => state.product);
 
-  }
+  useEffect(() => {
+    dispatch(getProductDetail(id));
+  }, [id, dispatch]);
 
-  useEffect(() => { 
-    getProductDetail()
-  }, []);
+  if (loading) return <div>로딩 중...</div>;
 
   return (
     <div className={styles.container}>
-      <div className={styles.imgWrapper}><img src={product?.img} className={styles.productImg} alt="" /></div>
+      <div className={styles.imgWrapper}><img src={product?.image} className={styles.productImg} alt="" /></div>
       <div>
-        <h3>{product?.title}</h3>
+        <h3>{product?.name}</h3>
         <h4>₩{product?.price}</h4>
         <button className={styles.btn}>추가</button>
       </div>
